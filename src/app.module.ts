@@ -8,6 +8,7 @@ import { PushController } from "./push/push.controller";
 import { PushService } from "./push/push.service";
 import { SequelizeModule } from "@nestjs/sequelize";
 import { PushToken } from "./push/push-token.model";
+import { PairingCodes } from "./account/pairing-codes.model";
 
 @Module({
   imports: [
@@ -22,11 +23,11 @@ import { PushToken } from "./push/push-token.model";
         password: configService.get("DB_PASSWORD"),
         database: configService.get("DB_NAME"),
         autoLoadModels: true,
-        synchronize: true,
+        synchronize: false,
       }),
       inject: [ConfigService],
     }),
-    SequelizeModule.forFeature([PushToken]),
+    SequelizeModule.forFeature([PushToken, PairingCodes]),
   ],
   controllers: [AccountController, PushController],
   providers: [ThingsboardProvider, ThingsboardService, PushService],
