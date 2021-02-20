@@ -46,4 +46,10 @@ export class ThingsboardService {
       })
       .then((response) => response.data);
   }
+
+  async getCustomerUsers(customerId: string) {
+    return this.tbProvider
+      .get(`api/customer/${customerId}/users?pageSize=10&page=0`)
+      .then((response) => response.data);
+  }
 }

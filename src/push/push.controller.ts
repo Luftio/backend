@@ -1,55 +1,48 @@
 import { Controller, Post, UseGuards, Body, Request } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
 import { ApiHeader } from "@nestjs/swagger";
-
-import { Expo } from "expo-server-sdk";
 
 import { TbServerGuard } from "src/guards/tb-server.guard";
 import { UserJwtGuard } from "src/guards/user-jwt.guard";
-import { PushDto, UpdateTokenDto } from "./push.dto";
+import { PushDto, PushCustomerDto, UpdateTokenDto } from "./push.dto";
 import { PushService } from "./push.service";
+import { ThingsboardService } from "../thingsboard/thingsboard.service";
 
 @Controller("push")
 export class PushController {
-  private expo: Expo;
-
   constructor(
-    private configService: ConfigService,
     private pushService: PushService,
-  ) {
-    this.expo = new Expo();
-  }
+    private thingsboardService: ThingsboardService,
+  ) {}
 
   @Post()
   @UseGuards(TbServerGuard)
   async push(@Body() pushDto: PushDto) {
     const pushTokens = await this.pushService.getTokens(pushDto.userId);
+    await this.pushService.push(
+      pushTokens,
+      pushDto.title,
+      pushDto.text,
+      pushDto.data,
+    );
+  }
 
-    const messages = pushTokens
-      .filter((pushToken) => Expo.isExpoPushToken(pushToken))
-      .map((pushToken) => ({
-        to: pushToken.token,
-        title: pushDto.title,
-        body: pushDto.text,
-        data: JSON.parse(pushDto.data),
-      }));
-    if (messages.length == 0) return;
-    const chunks = this.expo.chunkPushNotifications(messages);
-    for (const chunk of chunks) {
-      const response = await this.expo.sendPushNotificationsAsync(chunk);
-      for (const ticket of response) {
-        if (
-          ticket.status == "error" &&
-          ticket.details.error == "DeviceNotRegistered"
-        ) {
-          const token =
-            "ExponentPushToken[" +
-            ticket.message.match(/ExponentPushToken\[(.*)\]/)[1] +
-            "]";
-          this.pushService.deleteToken(pushDto.userId, token);
-        }
-      }
+  @Post("toCustomer")
+  @UseGuards(TbServerGuard)
+  async pushCustomer(@Body() pushDto: PushCustomerDto) {
+    const users = await this.thingsboardService.getCustomerUsers(
+      pushDto.customerId,
+    );
+    let pushTokens = [];
+    for (const user of users.data) {
+      const userTokens = await this.pushService.getTokens(user.id.id);
+      pushTokens = [...pushTokens, ...userTokens];
     }
+    await this.pushService.push(
+      pushTokens,
+      pushDto.title,
+      pushDto.text,
+      pushDto.data,
+    );
   }
 
   @Post("updateToken")

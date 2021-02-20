@@ -14,6 +14,20 @@ export class PushDto {
   data: string;
 }
 
+export class PushCustomerDto {
+  @IsNotEmpty()
+  customerId: string;
+
+  @IsNotEmpty()
+  title: string;
+
+  @IsNotEmpty()
+  text: string;
+
+  @IsJSON()
+  data: string;
+}
+
 export class UpdateTokenDto {
   @IsNotEmpty()
   token: string;
