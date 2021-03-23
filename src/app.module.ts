@@ -1,6 +1,9 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 
+import { SentryModule } from "@ntegral/nestjs-sentry";
+import { LogLevel } from "@sentry/types";
+
 import { ThingsboardService } from "./thingsboard/thingsboard.service";
 import { ThingsboardProvider } from "./thingsboard/thingsboard.provider";
 import { AccountController } from "./account/account.controller";
@@ -28,6 +31,12 @@ import { PairingCodes } from "./account/pairing-codes.model";
       inject: [ConfigService],
     }),
     SequelizeModule.forFeature([PushToken, PairingCodes]),
+    SentryModule.forRoot({
+      dsn:
+        "https://a489692294674b6ebb7fc4e2d12d5674@o550006.ingest.sentry.io/5689314",
+      debug: false,
+      logLevel: LogLevel.Debug,
+    }),
   ],
   controllers: [AccountController, PushController],
   providers: [ThingsboardProvider, ThingsboardService, PushService],
