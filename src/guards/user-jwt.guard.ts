@@ -12,9 +12,13 @@ import * as jwt from "jsonwebtoken";
 export class UserJwtGuard implements CanActivate {
   constructor(@Inject(ConfigService) private configService: ConfigService) {}
 
+  getRequest(context: ExecutionContext) {
+    return context.switchToHttp().getRequest();
+  }
+
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const secret = this.configService.get("TB_JWT");
-    const request = context.switchToHttp().getRequest();
+    const request = this.getRequest(context);
     try {
       const token = request.headers["x-authorization"].split("Bearer ")[1];
       request.user = jwt.verify(token, Buffer.from(secret, "base64"), {

@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
-import { PushToken } from "./push-token.model";
+import { PushToken } from "./models/push-token.model";
 
 import { Expo } from "expo-server-sdk";
 

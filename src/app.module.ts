@@ -1,21 +1,24 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-
 import { SentryModule } from "@ntegral/nestjs-sentry";
 import { LogLevel } from "@sentry/types";
-
-import { ThingsboardService } from "./thingsboard/thingsboard.service";
-import { ThingsboardProvider } from "./thingsboard/thingsboard.provider";
-import { AccountController } from "./account/account.controller";
-import { PushController } from "./push/push.controller";
-import { PushService } from "./push/push.service";
+import { GraphQLModule } from "@nestjs/graphql";
 import { SequelizeModule } from "@nestjs/sequelize";
-import { PushToken } from "./push/push-token.model";
-import { PairingCodes } from "./account/pairing-codes.model";
+
+import { AccountModule } from "./modules/account/account.module";
+import { PushModule } from "./modules/push/push.module";
+import { DevicesModule } from "./modules/devices/devices.module";
+import { EventsModule } from "./modules/events/events.module";
+import { SuggestionsModule } from "./modules/suggestions/suggestions.module";
+import { FeedbackModule } from "./modules/feedback/feedback.module";
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ cache: true }),
+    ConfigModule.forRoot({ cache: true, isGlobal: true }),
+    GraphQLModule.forRoot({
+      autoSchemaFile: process.cwd() + "/src/schema.gql",
+      sortSchema: true,
+    }),
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
@@ -26,19 +29,23 @@ import { PairingCodes } from "./account/pairing-codes.model";
         password: configService.get("DB_PASSWORD"),
         database: configService.get("DB_NAME"),
         autoLoadModels: true,
-        synchronize: false,
+        synchronize: true,
       }),
       inject: [ConfigService],
     }),
-    SequelizeModule.forFeature([PushToken, PairingCodes]),
     SentryModule.forRoot({
       dsn:
         "https://a489692294674b6ebb7fc4e2d12d5674@o550006.ingest.sentry.io/5689314",
       debug: false,
       logLevel: LogLevel.Debug,
     }),
+
+    AccountModule,
+    PushModule,
+    DevicesModule,
+    EventsModule,
+    SuggestionsModule,
+    FeedbackModule,
   ],
-  controllers: [AccountController, PushController],
-  providers: [ThingsboardProvider, ThingsboardService, PushService],
 })
 export class AppModule {}

@@ -3,7 +3,7 @@ import { ApiHeader } from "@nestjs/swagger";
 
 import { TbServerGuard } from "src/guards/tb-server.guard";
 import { UserJwtGuard } from "src/guards/user-jwt.guard";
-import { PushDto, PushCustomerDto, UpdateTokenDto } from "./push.dto";
+import { PushDto, PushCustomerDto, UpdateTokenDto } from "./dto/push.dto";
 import { PushService } from "./push.service";
 import { ThingsboardService } from "../thingsboard/thingsboard.service";
 

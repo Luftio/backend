@@ -1,0 +1,112 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Account {
+  email: String!
+  first_name: String!
+  id: ID!
+  last_name: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Device {
+  color: String!
+  data: [DeviceData!]
+  id: ID!
+  label: String!
+  title: String!
+}
+
+type DeviceData {
+  change: Float!
+  color: String!
+  maxValue: Float!
+  minValue: Float!
+  type: String!
+  value: Float!
+  values: [DeviceDataValue!]!
+}
+
+type DeviceDataValue {
+  ts: DateTime!
+  value: Float!
+}
+
+type EventFromEmployee {
+  breath: Int!
+  date: DateTime!
+  how_feel: String!
+  id: ID!
+  is_unread: Boolean!
+  name: String!
+  place: String!
+  temperature: Int!
+  threat: Int!
+}
+
+type EventFromMeasure {
+  date: DateTime!
+  id: ID!
+  is_unread: Boolean!
+  justification: String!
+  place: String!
+  threat: Int!
+  title: String!
+}
+
+type Feedback {
+  breath: Int!
+  date: DateTime!
+  how_feel: String!
+  id: ID!
+  is_unread: Boolean!
+  name: String!
+  temperature: Int!
+  total_score: Float!
+}
+
+type Mutation {
+  renameDevice(input: RenameDeviceInput!): Device!
+  updateToken(token: String!): Boolean!
+}
+
+type Query {
+  account: Account!
+  device(id: String!): Device!
+  devices: [Device!]!
+  devices_data: [Device!]!
+  event_from_employee(id: ID!): EventFromEmployee!
+  event_from_measure(id: ID!): EventFromMeasure!
+  events_from_employee: [EventFromEmployee!]!
+  events_from_employees_unread_count: Int!
+  events_from_measure: [EventFromMeasure!]!
+  events_from_measure_unread_count: Int!
+  events_unread_count: Int!
+  feedback(id: ID!): Feedback!
+  feedback_unread_count: Int!
+  feedbacks: [Feedback!]!
+  suggestion(id: ID!): Suggestion!
+  suggestions: [Suggestion!]!
+  suggestions_unread_count: Int!
+}
+
+input RenameDeviceInput {
+  id: ID!
+  title: String!
+}
+
+type Suggestion {
+  date: DateTime!
+  description: String!
+  how_solve: String!
+  id: ID!
+  importance: Int!
+  is_unread: Boolean!
+  title: String!
+  why_important: String!
+}

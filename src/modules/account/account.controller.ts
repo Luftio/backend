@@ -1,8 +1,8 @@
 import { Controller, Post, Body, BadRequestException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
-import { RegisterDto } from "./account.dto";
+import { RegisterDto } from "./dto/account.dto";
 import { ThingsboardService } from "../thingsboard/thingsboard.service";
-import { PairingCodes } from "./pairing-codes.model";
+import { PairingCodes } from "./models/pairing-codes.model";
 
 @Controller("account")
 export class AccountController {
