@@ -11,6 +11,7 @@ import { DevicesModule } from "./modules/devices/devices.module";
 import { EventsModule } from "./modules/events/events.module";
 import { SuggestionsModule } from "./modules/suggestions/suggestions.module";
 import { FeedbackModule } from "./modules/feedback/feedback.module";
+import { AchievementsModule } from "./modules/achievements/achievements.module";
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { FeedbackModule } from "./modules/feedback/feedback.module";
     }),
 
     AccountModule,
+    AchievementsModule,
     PushModule,
     DevicesModule,
     EventsModule,

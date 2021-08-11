@@ -50,8 +50,17 @@ export class DevicesService {
     };
   }
 
-  async loadData(customerId: string): Promise<Device[]> {
+  async loadDataAll(customerId: string): Promise<Device[]> {
     const devices = await this.findAll(customerId);
+    return await this.loadData(devices);
+  }
+
+  async loadDataOne(id: string, customerId: string): Promise<Device> {
+    const device = await this.findOne(id, customerId);
+    return (await this.loadData([device]))[0];
+  }
+
+  async loadData(devices: Device[]): Promise<Device[]> {
     const devicesOutput = [] as Device[];
     for (const device of devices) {
       const startTs = +new Date() - 24 * 3600000;
@@ -65,7 +74,6 @@ export class DevicesService {
         interval,
       );
       if (Object.keys(tsDataRequest).length >= 4) {
-        console.log(tsDataRequest);
         const processData = (values: any[]) => {
           let value = 0;
           let minValue = values[0].value;

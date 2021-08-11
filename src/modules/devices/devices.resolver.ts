@@ -23,8 +23,15 @@ export class DevicesResolver {
 
   @UseGuards(GqlUserJwtQuard)
   @Query(() => [Device], { name: "devices_data" })
-  loadData(@CurrentUserJwt() user: any) {
-    return this.devicesService.loadData(user.customerId);
+  loadDataAll(@CurrentUserJwt() user: any) {
+    return this.devicesService.loadDataAll(user.customerId);
+  }
+
+  @UseGuards(GqlUserJwtQuard)
+  @Query(() => Device, { name: "device_data" })
+  loadDataOne(@CurrentUserJwt() user: any, @Args("id") id: string) {
+    console.log("device_data");
+    return this.devicesService.loadDataOne(id, user.customerId);
   }
 
   @Mutation(() => Device, { name: "renameDevice" })
