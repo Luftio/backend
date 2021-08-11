@@ -6,6 +6,8 @@ export class DeviceData {
   @Field()
   color: string;
   @Field()
+  unit: string;
+  @Field()
   value: number;
   @Field()
   minValue: number;

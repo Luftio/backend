@@ -110,6 +110,7 @@ export class DevicesService {
         });
         data.push({
           type: "score",
+          unit: " %",
           values: tsDataRequest.score,
           ...processData(tsDataRequest.score),
           ...processChange(tsDataRequest.score, true),
@@ -120,6 +121,7 @@ export class DevicesService {
         }));
         data.push({
           type: "CO2",
+          unit: " ppm",
           values: tsDataRequest.co2,
           ...processData(tsDataRequest.co2),
           ...processChange(tsDataRequest.co2, true),
@@ -130,6 +132,7 @@ export class DevicesService {
         }));
         data.push({
           type: "temperature",
+          unit: "°C",
           values: tsDataRequest.temp,
           ...processData(tsDataRequest.temp),
           ...processChange(tsDataRequest.temp, true),
@@ -140,6 +143,7 @@ export class DevicesService {
         }));
         data.push({
           type: "pressure",
+          unit: " hPa",
           values: tsDataRequest.pres,
           ...processData(tsDataRequest.pres),
           ...processChange(tsDataRequest.pres, true),
@@ -150,6 +154,7 @@ export class DevicesService {
         }));
         data.push({
           type: "humidity",
+          unit: " %",
           values: tsDataRequest.hum,
           ...processData(tsDataRequest.hum),
           ...processChange(tsDataRequest.hum, false),

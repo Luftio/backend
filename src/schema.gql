@@ -33,6 +33,7 @@ type DeviceData {
   maxValue: Float!
   minValue: Float!
   type: String!
+  unit: String!
   value: Float!
   values: [DeviceDataValue!]!
 }
