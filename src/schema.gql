@@ -14,6 +14,12 @@ type Achievement {
   name: String!
 }
 
+type Brightness {
+  brightness: Float!
+  id: ID!
+  light: String!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -25,6 +31,11 @@ type Device {
   id: ID!
   label: String!
   title: String!
+}
+
+type DeviceAttributes {
+  attributes: String!
+  id: ID!
 }
 
 type DeviceData {
@@ -78,13 +89,17 @@ type Feedback {
 
 type Mutation {
   renameDevice(input: RenameDeviceInput!): Device!
+  saveDeviceAttributes(data: String!, id: String!): DeviceAttributes!
+  setBrightness(input: SetBrightnessInput!): Brightness!
   updateToken(token: String!): Boolean!
 }
 
 type Query {
   account: Account!
   achievements: [Achievement!]!
+  brightness(id: String!): Brightness!
   device(id: String!): Device!
+  deviceAttributes(id: String!): DeviceAttributes!
   device_data(id: String!): Device!
   devices: [Device!]!
   devices_data: [Device!]!
@@ -106,6 +121,12 @@ type Query {
 input RenameDeviceInput {
   id: ID!
   title: String!
+}
+
+input SetBrightnessInput {
+  brightness: Float!
+  id: ID!
+  light: String!
 }
 
 type Suggestion {

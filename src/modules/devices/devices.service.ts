@@ -1,5 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { ThingsboardService } from "../thingsboard/thingsboard.service";
+import { Brightness } from "./entities/brightness.entity";
+import { DeviceAttributes } from "./entities/device-attributes.entity";
 import { DeviceData } from "./entities/device-data.entity";
 import { Device } from "./entities/device.entity";
 
@@ -57,7 +59,8 @@ export class DevicesService {
 
   async loadDataOne(id: string, customerId: string): Promise<Device> {
     const device = await this.findOne(id, customerId);
-    return (await this.loadData([device]))[0];
+    const loadedData = await this.loadData([device]);
+    return loadedData[0];
   }
 
   async loadData(devices: Device[]): Promise<Device[]> {
@@ -139,7 +142,7 @@ export class DevicesService {
         });
         tsDataRequest.pres = tsDataRequest.pres.map((it: any) => ({
           ts: new Date(it.ts),
-          value: Math.round(Number(it.value)) / 100,
+          value: Math.round(Number(it.value) / 100),
         }));
         data.push({
           type: "pressure",
@@ -188,5 +191,37 @@ export class DevicesService {
       }
     }
     return devicesOutput;
+  }
+
+  async getBrightness(id: string): Promise<Brightness> {
+    const data = await this.thingsboardService.getAttributes(id);
+    const light = data.find((it) => it.key == "light")?.value;
+    const brightness = data.find((it) => it.key == "brightness")?.value;
+    return {
+      id,
+      brightness,
+      light,
+    };
+  }
+
+  async setBrightness(
+    id: string,
+    light: string,
+    brightness: number,
+  ): Promise<void> {
+    await this.thingsboardService.setAttributes(id, { light, brightness });
+  }
+
+  async getAttributes(id: string): Promise<DeviceAttributes> {
+    const data = await this.thingsboardService.getAttributes(id);
+    return { id, attributes: JSON.stringify(data) };
+  }
+
+  async setAttributes(
+    id: string,
+    inputData: string,
+  ): Promise<DeviceAttributes> {
+    await this.thingsboardService.setAttributes(id, JSON.parse(inputData));
+    return await this.getAttributes(id);
   }
 }

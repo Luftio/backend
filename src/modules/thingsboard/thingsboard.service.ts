@@ -106,4 +106,19 @@ export class ThingsboardService {
     const response = await this.tbProvider.get(`api/user/${userId}`);
     return response.data;
   }
+
+  async getAttributes(deviceId) {
+    const response = await this.tbProvider.get(
+      "api/plugins/telemetry/DEVICE/" + deviceId + "/values/attributes",
+    );
+    return response.data;
+  }
+
+  async setAttributes(deviceId, attributes) {
+    const response = await this.tbProvider.post(
+      "api/plugins/telemetry/DEVICE/" + deviceId + "/attributes/SHARED_SCOPE",
+      { ...attributes },
+    );
+    return response.data;
+  }
 }

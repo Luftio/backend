@@ -3,7 +3,10 @@ import { Resolver, Query, Args, Mutation } from "@nestjs/graphql";
 import { CurrentUserJwt, GqlUserJwtQuard } from "src/guards/gql-user-jwt.guard";
 import { DevicesService } from "./devices.service";
 import { RenameDeviceInput } from "./dto/rename-device.input";
+import { SetBrightnessInput } from "./dto/set-brightness.input";
+import { Brightness } from "./entities/brightness.entity";
 import { Device } from "./entities/device.entity";
+import { DeviceAttributes } from "./entities/device-attributes.entity";
 
 @Resolver(() => Device)
 export class DevicesResolver {
@@ -29,8 +32,7 @@ export class DevicesResolver {
 
   @UseGuards(GqlUserJwtQuard)
   @Query(() => Device, { name: "device_data" })
-  loadDataOne(@CurrentUserJwt() user: any, @Args("id") id: string) {
-    console.log("device_data");
+  async loadDataOne(@CurrentUserJwt() user: any, @Args("id") id: string) {
     return this.devicesService.loadDataOne(id, user.customerId);
   }
 
@@ -40,5 +42,45 @@ export class DevicesResolver {
     @Args("input") input: RenameDeviceInput,
   ) {
     return this.devicesService.rename(input.id, user.customerId, input.title);
+  }
+
+  @UseGuards(GqlUserJwtQuard)
+  @Query(() => Brightness, { name: "brightness" })
+  getBrightness(@CurrentUserJwt() user: any, @Args("id") id: string) {
+    return this.devicesService.getBrightness(id);
+  }
+
+  @UseGuards(GqlUserJwtQuard)
+  @Mutation(() => Brightness, { name: "setBrightness" })
+  async setBrightness(
+    @CurrentUserJwt() user: any,
+    @Args("input") input: SetBrightnessInput,
+  ) {
+    await this.devicesService.setBrightness(
+      input.id,
+      input.light,
+      input.brightness,
+    );
+    return {
+      id: input.id,
+      light: input.light,
+      brightness: input.brightness,
+    };
+  }
+
+  @UseGuards(GqlUserJwtQuard)
+  @Query(() => DeviceAttributes, { name: "deviceAttributes" })
+  getAttributes(@CurrentUserJwt() user: any, @Args("id") id: string) {
+    return this.devicesService.getAttributes(id);
+  }
+
+  @UseGuards(GqlUserJwtQuard)
+  @Mutation(() => DeviceAttributes, { name: "saveDeviceAttributes" })
+  setAttributes(
+    @CurrentUserJwt() user: any,
+    @Args("id") id: string,
+    @Args("data") data: string,
+  ) {
+    return this.devicesService.setAttributes(id, data);
   }
 }
