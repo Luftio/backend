@@ -1,5 +1,5 @@
 import { UseGuards } from "@nestjs/common";
-import { Resolver, Query, Args, Mutation } from "@nestjs/graphql";
+import { Resolver, Query, Args, Mutation, Int } from "@nestjs/graphql";
 import { CurrentUserJwt, GqlUserJwtQuard } from "src/guards/gql-user-jwt.guard";
 import { DevicesService } from "./devices.service";
 import { RenameDeviceInput } from "./dto/rename-device.input";
@@ -26,14 +26,38 @@ export class DevicesResolver {
 
   @UseGuards(GqlUserJwtQuard)
   @Query(() => [Device], { name: "devices_data" })
-  loadDataAll(@CurrentUserJwt() user: any) {
-    return this.devicesService.loadDataAll(user.customerId);
+  loadDataAll(
+    @CurrentUserJwt() user: any,
+    @Args("startTs", { nullable: true }) startTs?: string,
+    @Args("endTs", { nullable: true }) endTs?: string,
+    @Args("interval", { type: () => Int, defaultValue: 600000 })
+    interval?: number,
+  ) {
+    return this.devicesService.loadDataAll(
+      user.customerId,
+      startTs ? new Date(startTs) : new Date(+new Date() - 24 * 3600000),
+      endTs ? new Date(endTs) : new Date(),
+      interval,
+    );
   }
 
   @UseGuards(GqlUserJwtQuard)
   @Query(() => Device, { name: "device_data" })
-  async loadDataOne(@CurrentUserJwt() user: any, @Args("id") id: string) {
-    return this.devicesService.loadDataOne(id, user.customerId);
+  async loadDataOne(
+    @CurrentUserJwt() user: any,
+    @Args("id") id: string,
+    @Args("startTs", { nullable: true }) startTs?: string,
+    @Args("endTs", { nullable: true }) endTs?: string,
+    @Args("interval", { type: () => Int, defaultValue: 600000 })
+    interval?: number,
+  ) {
+    return this.devicesService.loadDataOne(
+      id,
+      user.customerId,
+      startTs ? new Date(startTs) : new Date(+new Date() - 24 * 3600000),
+      endTs ? new Date(endTs) : new Date(),
+      interval,
+    );
   }
 
   @Mutation(() => Device, { name: "renameDevice" })

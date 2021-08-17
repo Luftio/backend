@@ -52,28 +52,41 @@ export class DevicesService {
     };
   }
 
-  async loadDataAll(customerId: string): Promise<Device[]> {
+  async loadDataAll(
+    customerId: string,
+    startTs: Date,
+    endTs: Date,
+    interval: number,
+  ): Promise<Device[]> {
     const devices = await this.findAll(customerId);
-    return await this.loadData(devices);
+    return await this.loadData(devices, startTs, endTs, interval);
   }
 
-  async loadDataOne(id: string, customerId: string): Promise<Device> {
+  async loadDataOne(
+    id: string,
+    customerId: string,
+    startTs: Date,
+    endTs: Date,
+    interval: number,
+  ): Promise<Device> {
     const device = await this.findOne(id, customerId);
-    const loadedData = await this.loadData([device]);
+    const loadedData = await this.loadData([device], startTs, endTs, interval);
     return loadedData[0];
   }
 
-  async loadData(devices: Device[]): Promise<Device[]> {
+  async loadData(
+    devices: Device[],
+    startTs: Date,
+    endTs: Date,
+    interval: number,
+  ): Promise<Device[]> {
     const devicesOutput = [] as Device[];
     for (const device of devices) {
-      const startTs = +new Date() - 24 * 3600000;
-      const endTs = +new Date();
-      const interval = 600000;
       const tsDataRequest = await this.thingsboardService.getReadingsTimeseries(
         device.id,
         "co2,temp,pres,hum",
-        startTs,
-        endTs,
+        +startTs,
+        +endTs,
         interval,
       );
       if (Object.keys(tsDataRequest).length >= 4) {

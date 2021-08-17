@@ -100,7 +100,7 @@ type Query {
   brightness(id: String!): Brightness!
   device(id: String!): Device!
   deviceAttributes(id: String!): DeviceAttributes!
-  device_data(id: String!): Device!
+  device_data(endTs: String, id: String!, interval: Int = 600000, startTs: String): Device!
   devices: [Device!]!
   devices_data: [Device!]!
   event_from_employee(id: ID!): EventFromEmployee!
