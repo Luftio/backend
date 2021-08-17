@@ -102,7 +102,7 @@ type Query {
   deviceAttributes(id: String!): DeviceAttributes!
   device_data(endTs: String, id: String!, interval: Int = 600000, startTs: String): Device!
   devices: [Device!]!
-  devices_data: [Device!]!
+  devices_data(endTs: String, interval: Int = 600000, startTs: String): [Device!]!
   event_from_employee(id: ID!): EventFromEmployee!
   event_from_measure(id: ID!): EventFromMeasure!
   events_from_employee: [EventFromEmployee!]!

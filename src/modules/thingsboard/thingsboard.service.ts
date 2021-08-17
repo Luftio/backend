@@ -59,7 +59,7 @@ export class ThingsboardService {
 
   async getDevices() {
     const response = await this.tbProvider.get(
-      "api/tenant/devices?page=0&pageSize=100",
+      "api/tenant/devices?page=0&pageSize=1000&sortProperty=name&sortOrder=desc",
     );
     return response.data;
   }

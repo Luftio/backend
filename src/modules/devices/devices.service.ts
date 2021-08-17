@@ -71,7 +71,11 @@ export class DevicesService {
   ): Promise<Device> {
     const device = await this.findOne(id, customerId);
     const loadedData = await this.loadData([device], startTs, endTs, interval);
-    return loadedData[0];
+    if (loadedData.length > 0) {
+      return loadedData[0];
+    } else {
+      return device;
+    }
   }
 
   async loadData(

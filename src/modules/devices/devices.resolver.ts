@@ -30,7 +30,7 @@ export class DevicesResolver {
     @CurrentUserJwt() user: any,
     @Args("startTs", { nullable: true }) startTs?: string,
     @Args("endTs", { nullable: true }) endTs?: string,
-    @Args("interval", { type: () => Int, defaultValue: 600000 })
+    @Args("interval", { type: () => Int, defaultValue: 900000 })
     interval?: number,
   ) {
     return this.devicesService.loadDataAll(
@@ -48,7 +48,7 @@ export class DevicesResolver {
     @Args("id") id: string,
     @Args("startTs", { nullable: true }) startTs?: string,
     @Args("endTs", { nullable: true }) endTs?: string,
-    @Args("interval", { type: () => Int, defaultValue: 600000 })
+    @Args("interval", { type: () => Int, defaultValue: 900000 })
     interval?: number,
   ) {
     return this.devicesService.loadDataOne(
