@@ -10,4 +10,8 @@ export class Account {
   last_name: string;
   @Field()
   email: string;
+  @Field()
+  role: string;
+  @Field()
+  pending_invitation: boolean;
 }

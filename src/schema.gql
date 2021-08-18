@@ -7,6 +7,8 @@ type Account {
   first_name: String!
   id: ID!
   last_name: String!
+  pending_invitation: Boolean!
+  role: String!
 }
 
 type Achievement {
@@ -88,6 +90,11 @@ type Feedback {
 }
 
 type Mutation {
+  changeAccountDetails(email: String!, firstName: String!, lastName: String!): Boolean!
+  changePassword(currentPassword: String!, newPassword: String!): Boolean!
+  changeRole(role: String!, userId: String!): Boolean!
+  deleteUser(userId: String!): Boolean!
+  inviteUser(email: String!, role: String!): Boolean!
   renameDevice(input: RenameDeviceInput!): Device!
   saveDeviceAttributes(data: String!, id: String!): DeviceAttributes!
   setBrightness(input: SetBrightnessInput!): Brightness!
@@ -96,13 +103,14 @@ type Mutation {
 
 type Query {
   account: Account!
+  accounts: [Account!]!
   achievements: [Achievement!]!
   brightness(id: String!): Brightness!
   device(id: String!): Device!
   deviceAttributes(id: String!): DeviceAttributes!
-  device_data(endTs: String, id: String!, interval: Int = 600000, startTs: String): Device!
+  device_data(endTs: String, id: String!, interval: Int = 900000, startTs: String): Device!
   devices: [Device!]!
-  devices_data(endTs: String, interval: Int = 600000, startTs: String): [Device!]!
+  devices_data(endTs: String, interval: Int = 900000, startTs: String): [Device!]!
   event_from_employee(id: ID!): EventFromEmployee!
   event_from_measure(id: ID!): EventFromMeasure!
   events_from_employee: [EventFromEmployee!]!

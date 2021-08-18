@@ -24,6 +24,7 @@ export class UserJwtGuard implements CanActivate {
       request.user = jwt.verify(token, Buffer.from(secret, "base64"), {
         algorithms: ["HS512"],
       });
+      request.user.token = token;
       return true;
     } catch (error) {
       console.log(error);

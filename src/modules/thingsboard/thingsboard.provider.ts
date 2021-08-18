@@ -27,7 +27,7 @@ export const ThingsboardProvider = {
       (response) => response,
       (error) => {
         const status = error.response ? error.response.status : null;
-        if (status === 401) {
+        if (status === 401 && error.config.headers["X-Auth-Type"] !== "user") {
           const originalRequest = error.config;
           return getToken().then(() => instance(originalRequest));
         }

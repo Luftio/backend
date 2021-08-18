@@ -13,9 +13,15 @@ export class ThingsboardService {
     email: string,
     firstName: string,
     lastName: string,
+    role: string,
   ) {
     return this.tbProvider
       .post("api/user?sendActivationMail=false", {
+        additionalInfo: {
+          description: JSON.stringify({ role }),
+          defaultDashboardId: null,
+          defaultDashboardFullscreen: false,
+        },
         authority: "CUSTOMER_USER",
         customerId: {
           entityType: "CUSTOMER",
@@ -52,7 +58,7 @@ export class ThingsboardService {
 
   async getCustomerUsers(customerId: string) {
     const response = await this.tbProvider.get(
-      `api/customer/${customerId}/users?pageSize=10&page=0`,
+      `api/customer/${customerId}/users?pageSize=100&page=0`,
     );
     return response.data;
   }
@@ -119,6 +125,28 @@ export class ThingsboardService {
       "api/plugins/telemetry/DEVICE/" + deviceId + "/attributes/SHARED_SCOPE",
       { ...attributes },
     );
+    return response.data;
+  }
+
+  async changePassword(token, currentPassword, newPassword) {
+    const response = await this.tbProvider.post(
+      "api/auth/changePassword",
+      { currentPassword, newPassword },
+      { headers: { "X-Authorization": token, "X-Auth-Type": "user" } },
+    );
+    return response.data;
+  }
+
+  async saveUser(userObject: unknown) {
+    const response = await this.tbProvider.post(
+      `api/user?sendActivationMail=false`,
+      userObject,
+    );
+    return response.data;
+  }
+
+  async deleteUser(userId) {
+    const response = await this.tbProvider.delete("api/user/" + userId);
     return response.data;
   }
 }

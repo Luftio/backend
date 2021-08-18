@@ -28,12 +28,9 @@ export class MailingService {
     return await this.sendMail(to, subject, html);
   }
 
-  async sendTest() {
-    return await this.sendTemplate(
-      "t.martykan@gmail.com",
-      "Vítejte",
-      "cs/welcome.html",
-      { url: "https://dashboard.luftio.com/ " },
-    );
+  async sendTemplateWelcome(email, token) {
+    return await this.sendTemplate(email, "Vítejte", "cs/welcome.html", {
+      url: "https://dashboard.luftio.com/invite/" + token,
+    });
   }
 }
