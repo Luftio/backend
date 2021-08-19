@@ -69,8 +69,11 @@ export class AccountService {
       );
       return true;
     } catch (error) {
-      console.log(error.config);
+      console.log(error.response.status);
       if (error.response.status == 401) {
+        throw "invalid_password";
+      } else if (error.response.status == 400) {
+        console.log(error.response.data);
         throw "invalid_password";
       }
       return false;

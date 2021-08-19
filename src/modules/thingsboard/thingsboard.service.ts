@@ -1,5 +1,5 @@
 import { Injectable, Inject } from "@nestjs/common";
-import { AxiosInstance } from "axios";
+import axios, { AxiosInstance } from "axios";
 
 @Injectable()
 export class ThingsboardService {
@@ -129,10 +129,10 @@ export class ThingsboardService {
   }
 
   async changePassword(token, currentPassword, newPassword) {
-    const response = await this.tbProvider.post(
-      "api/auth/changePassword",
+    const response = await axios.post(
+      this.tbProvider.defaults.baseURL + "api/auth/changePassword",
       { currentPassword, newPassword },
-      { headers: { "X-Authorization": token, "X-Auth-Type": "user" } },
+      { headers: { "X-Authorization": "Bearer " + token } },
     );
     return response.data;
   }
