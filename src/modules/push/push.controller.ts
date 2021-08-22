@@ -51,6 +51,8 @@ export class PushController {
   async updateToken(@Request() req, @Body() updateTokenDto: UpdateTokenDto) {
     const userId = req.user.userId;
     try {
+      await this.pushService.deleteToken(updateTokenDto.token);
+      await this.pushService.deleteUserId(userId);
       await this.pushService.insertToken(userId, updateTokenDto.token);
     } catch (error) {
       // Don't pass errors to client

@@ -13,6 +13,8 @@ export class PushResolver {
   async updateToken(@CurrentUserJwt() user: any, @Args("token") token: string) {
     const userId = user.userId;
     try {
+      await this.pushService.deleteToken(token);
+      await this.pushService.deleteUserId(userId);
       await this.pushService.insertToken(userId, token);
     } catch (error) {
       // Don't pass errors to client

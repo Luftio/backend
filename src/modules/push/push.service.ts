@@ -28,6 +28,11 @@ export class PushService {
       .findOne({ where: { token } })
       .then((token) => token.destroy());
   }
+  deleteUserId(userId: string) {
+    return this.pushToken
+      .findOne({ where: { userId } })
+      .then((token) => token.destroy());
+  }
 
   async push(pushTokens: string[], title: string, body: string, data: string) {
     const messages = pushTokens
