@@ -12,6 +12,7 @@ import { EventsModule } from "./modules/events/events.module";
 import { SuggestionsModule } from "./modules/suggestions/suggestions.module";
 import { FeedbackModule } from "./modules/feedback/feedback.module";
 import { AchievementsModule } from "./modules/achievements/achievements.module";
+import { NotificationsModule } from "./modules/notifications/notifications.module";
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { AchievementsModule } from "./modules/achievements/achievements.module";
     EventsModule,
     SuggestionsModule,
     FeedbackModule,
+    NotificationsModule,
   ],
 })
 export class AppModule {}

@@ -77,4 +77,8 @@ export class EventsService {
   getUnreadCountFromEmployees(): number {
     return 0;
   }
+
+  createEventFromMeasure(event: Partial<EventsFromMeasure>) {
+    return this.eventsFromMeasure.create(event);
+  }
 }

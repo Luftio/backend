@@ -89,6 +89,13 @@ type Feedback {
   total_score: Float!
 }
 
+type GenericNotification {
+  date: DateTime!
+  id: ID!
+  text: String!
+  title: String!
+}
+
 type Mutation {
   changeAccountDetails(email: String!, firstName: String!, lastName: String!): Boolean!
   changePassword(currentPassword: String!, newPassword: String!): Boolean!
@@ -100,6 +107,8 @@ type Mutation {
   setBrightness(input: SetBrightnessInput!): Brightness!
   updateToken(token: String!): Boolean!
 }
+
+union NotificationsUnion = EventFromMeasure | GenericNotification
 
 type Query {
   account: Account!
@@ -121,6 +130,7 @@ type Query {
   feedback(id: ID!): Feedback!
   feedback_unread_count: Int!
   feedbacks: [Feedback!]!
+  notifications: [NotificationsUnion!]!
   suggestion(id: ID!): Suggestion!
   suggestions: [Suggestion!]!
   suggestions_unread_count: Int!
