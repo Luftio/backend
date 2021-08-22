@@ -11,8 +11,7 @@ export class EventsController {
   @Post("createFromMeasure")
   @UseGuards(TbServerGuard)
   async createFromMeasure(@Body() dto: CreateEventFromMeasureDto) {
-    this.eventsService.createEventFromMeasure({
-      id: null,
+    await this.eventsService.createEventFromMeasure({
       customer_id: dto.customerId,
       title: dto.title,
       place: dto.place,

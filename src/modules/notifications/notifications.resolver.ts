@@ -26,14 +26,19 @@ export class NotificationsResolver {
   async notifications(
     @CurrentUserJwt() user: any,
   ): Promise<Array<typeof ResultUnion>> {
+    const eventsFromMeasure = await this.eventsService.findAllFromMeasure(
+      user.customerId,
+    );
     const allNotifications: Array<typeof ResultUnion> = [
-      ...(await this.eventsService.findAllFromMeasure(user.customerId)),
+      ...eventsFromMeasure.map((it) =>
+        Object.assign(new EventFromMeasure(), it),
+      ),
       Object.assign(new GenericNotification(), {
         id: "1",
         title: "Vítejte v Luftio!",
         text:
           "Děkujeme za Vaši podporu a přejeme Vám mnoho zdravých dnů s naším senzorem",
-        date: new Date("2021-08-16T10:00"),
+        date: new Date("2021-08-16T10:00Z"),
       }),
     ];
     allNotifications.sort(
