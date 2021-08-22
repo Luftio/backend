@@ -91,18 +91,16 @@ export class AccountService {
 
   async inviteUser(customerId, email, role) {
     const tenantId = "51b74e40-3267-11eb-bcfe-270ee9414f1a"; // Luftio
-
-    let userId;
     try {
-      const createResponse = await this.thingsboardService.createUser(
+      await this.thingsboardService.createUser(
         customerId,
         tenantId,
         email,
         "",
         "",
         role,
+        true,
       );
-      userId = createResponse.id.id;
     } catch (error) {
       console.log(error.response.data);
       if (error?.response?.data?.errorCode == 31) {
@@ -110,9 +108,6 @@ export class AccountService {
       }
       throw error;
     }
-    const activationKey = await this.thingsboardService.activationLink(userId);
-    console.log(activationKey);
-    await this.mailingService.sendTemplateWelcome(email, activationKey);
   }
 
   async acceptInvite(

@@ -14,9 +14,10 @@ export class ThingsboardService {
     firstName: string,
     lastName: string,
     role: string,
+    sendActivationMail: boolean,
   ) {
     return this.tbProvider
-      .post("api/user?sendActivationMail=false", {
+      .post("api/user?sendActivationMail=" + sendActivationMail, {
         additionalInfo: {
           description: JSON.stringify({ role }),
           defaultDashboardId: null,

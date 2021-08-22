@@ -36,6 +36,7 @@ export class AccountController {
         registerDto.firstName,
         registerDto.lastName,
         "user",
+        false,
       );
       userId = createResponse.id.id;
     } catch (error) {
