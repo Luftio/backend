@@ -60,6 +60,7 @@ export class DevicesResolver {
     );
   }
 
+  @UseGuards(GqlUserJwtQuard)
   @Mutation(() => Device, { name: "renameDevice" })
   renameDevice(
     @CurrentUserJwt() user: any,
