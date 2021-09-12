@@ -88,7 +88,7 @@ export class DevicesService {
     for (const device of devices) {
       const tsDataRequest = await this.thingsboardService.getReadingsTimeseries(
         device.id,
-        "co2,temp,pres,hum",
+        "co2,temp,pres,hum,siaq",
         +startTs,
         +endTs,
         interval,
@@ -150,6 +150,19 @@ export class DevicesService {
           ts: new Date(it.ts),
           value: Math.round(Number(it.value) * 100) / 100,
         }));
+        if (tsDataRequest.siaq) {
+          tsDataRequest.siaq = tsDataRequest.siaq.map((it: any) => ({
+            ts: new Date(it.ts),
+            value: Math.round(Number(it.value) * 100) / 100,
+          }));
+          data.push({
+            type: "siaq",
+            unit: " pts",
+            values: tsDataRequest.siaq,
+            ...processData(tsDataRequest.siaq),
+            ...processChange(tsDataRequest.siaq, true),
+          });
+        }
         data.push({
           type: "temperature",
           unit: "°C",
@@ -191,6 +204,9 @@ export class DevicesService {
           } else if (it.type === "CO2") {
             if (it.value < 600) color = "green";
             else if (it.value < 1200) color = "yellow";
+          } else if (it.type === "siaq") {
+            if (it.value < 100) color = "green";
+            else if (it.value < 200) color = "yellow";
           } else if (it.type === "temperature") {
             if (it.value < 24 && it.value > 18) color = "green";
             else if (it.value < 26 && it.value > 16) color = "yellow";
