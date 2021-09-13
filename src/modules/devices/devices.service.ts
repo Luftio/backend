@@ -202,17 +202,17 @@ export class DevicesService {
             else if (it.value > 50) color = "yellow";
             mainColor = color;
           } else if (it.type === "CO2") {
-            if (it.value < 600) color = "green";
-            else if (it.value < 1200) color = "yellow";
+            if (it.value < 1100) color = "green";
+            else if (it.value < 2000) color = "yellow";
           } else if (it.type === "siaq") {
             if (it.value < 100) color = "green";
             else if (it.value < 200) color = "yellow";
           } else if (it.type === "temperature") {
-            if (it.value < 24 && it.value > 18) color = "green";
+            if (it.value < 24 && it.value > 19) color = "green";
             else if (it.value < 26 && it.value > 16) color = "yellow";
           } else if (it.type === "humidity") {
-            if (it.value < 60 && it.value > 40) color = "green";
-            else if (it.value < 70 && it.value > 30) color = "yellow";
+            if (it.value < 60 && it.value > 30) color = "green";
+            else if (it.value < 70 && it.value > 20) color = "yellow";
           } else if (it.type === "pressure") {
             color = "green";
           }
