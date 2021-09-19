@@ -203,7 +203,7 @@ export class DevicesService {
             mainColor = color;
           } else if (it.type === "CO2") {
             if (it.value < 1100) color = "green";
-            else if (it.value < 2000) color = "yellow";
+            else if (it.value < 1500) color = "yellow";
           } else if (it.type === "siaq") {
             if (it.value < 100) color = "green";
             else if (it.value < 200) color = "yellow";
