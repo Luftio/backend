@@ -5,6 +5,8 @@ export class Suggestion {
   @Field(() => ID)
   id: string;
   @Field()
+  icon_name: string;
+  @Field()
   title: string;
   @Field()
   description: string;

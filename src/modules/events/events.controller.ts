@@ -12,6 +12,7 @@ export class EventsController {
   @UseGuards(TbServerGuard)
   async createFromMeasure(@Body() dto: CreateEventFromMeasureDto) {
     await this.eventsService.createEventFromMeasure({
+      icon_name: dto.icon_name,
       customer_id: dto.customerId,
       title: dto.title,
       place: dto.place,

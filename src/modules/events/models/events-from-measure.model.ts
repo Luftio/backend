@@ -22,6 +22,9 @@ export class EventsFromMeasure extends Model {
   })
   customer_id: string;
 
+  @Column({ type: DataType.STRING, field: "icon_name" })
+  icon_name: string;
+
   @Column({ type: DataType.STRING, field: "title" })
   title: string;
 

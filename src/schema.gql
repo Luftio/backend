@@ -70,6 +70,7 @@ type EventFromEmployee {
 
 type EventFromMeasure {
   date: DateTime!
+  icon_name: String!
   id: ID!
   is_unread: Boolean!
   justification: String!
@@ -151,6 +152,7 @@ type Suggestion {
   date: DateTime!
   description: String!
   how_solve: String!
+  icon_name: String!
   id: ID!
   importance: Int!
   is_unread: Boolean!

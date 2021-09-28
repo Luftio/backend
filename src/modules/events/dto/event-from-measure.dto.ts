@@ -8,6 +8,9 @@ export class CreateEventFromMeasureDto {
   customerId: string;
 
   @IsNotEmpty()
+  icon_name: string;
+
+  @IsNotEmpty()
   title: string;
 
   @IsNotEmpty()

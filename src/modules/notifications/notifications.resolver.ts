@@ -35,10 +35,9 @@ export class NotificationsResolver {
       ),
       Object.assign(new GenericNotification(), {
         id: "1",
-        title: "Vítejte v Luftio!",
-        text:
-          "Děkujeme za Vaši podporu a přejeme Vám mnoho zdravých dnů s naším senzorem",
-        date: new Date("2021-08-16T10:00Z"),
+        title: "generic_notification_title",
+        text: "generic_notification_text",
+        date: new Date("2021-09-1T10:00Z"),
       }),
     ];
     allNotifications.sort(
