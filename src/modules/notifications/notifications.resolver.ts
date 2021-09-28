@@ -37,7 +37,7 @@ export class NotificationsResolver {
         id: "1",
         title: "generic_notification_title",
         text: "generic_notification_text",
-        date: new Date("2021-09-1T10:00Z"),
+        date: new Date("2021-08-16T10:00Z"),
       }),
     ];
     allNotifications.sort(
