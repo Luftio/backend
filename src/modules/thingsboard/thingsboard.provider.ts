@@ -11,7 +11,7 @@ export const ThingsboardProvider = {
 
     const instance = axios.create({
       baseURL,
-      timeout: 2000,
+      timeout: 10000,
     });
     async function getToken() {
       console.log("Refreshing token");
