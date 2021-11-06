@@ -97,9 +97,10 @@ export class ThingsboardService {
     startTs: number,
     endTs: number,
     interval: number,
+    agg = "AVG",
   ) {
     const response = await this.tbProvider.get(
-      `api/plugins/telemetry/DEVICE/${deviceId}/values/timeseries?keys=${keys}&startTs=${startTs}&endTs=${endTs}&interval=${interval}&agg=AVG`,
+      `api/plugins/telemetry/DEVICE/${deviceId}/values/timeseries?keys=${keys}&startTs=${startTs}&endTs=${endTs}&interval=${interval}&agg=${agg}`,
     );
     return response.data;
   }
