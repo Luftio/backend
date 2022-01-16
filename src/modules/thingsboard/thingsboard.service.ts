@@ -99,6 +99,7 @@ export class ThingsboardService {
     interval: number,
     agg = "AVG",
   ) {
+    agg = "NONE";
     const start = +new Date();
     const response = await this.tbProvider.get(
       `api/plugins/telemetry/DEVICE/${deviceId}/values/timeseries?keys=${keys}&startTs=${startTs}&endTs=${endTs}&interval=${interval}&agg=${agg}`,
