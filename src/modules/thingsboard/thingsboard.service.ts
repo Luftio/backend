@@ -99,8 +99,10 @@ export class ThingsboardService {
     interval: number,
     agg = "AVG",
   ) {
-    agg = "NONE";
-    const limit = "1000";
+    if (endTs - startTs < 24 * 3600 * 1000) {
+      agg = "NONE";
+    }
+    const limit = "5000";
     const start = +new Date();
     const response = await this.tbProvider.get(
       `api/plugins/telemetry/DEVICE/${deviceId}/values/timeseries?keys=${keys}&startTs=${startTs}&endTs=${endTs}&interval=${interval}&agg=${agg}&limit=${limit}`,
