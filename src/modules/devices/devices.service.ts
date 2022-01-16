@@ -86,7 +86,7 @@ export class DevicesService {
   ): Promise<Device[]> {
     const devicesOutput = [] as Device[];
     for (const device of devices) {
-      const tsDataRequest1 = await this.thingsboardService.getReadingsTimeseries(
+      const tsDataRequest1 = this.thingsboardService.getReadingsTimeseries(
         device.id,
         "co2,siaq",
         +startTs,
@@ -94,7 +94,7 @@ export class DevicesService {
         interval,
         "max",
       );
-      const tsDataRequest2 = await this.thingsboardService.getReadingsTimeseries(
+      const tsDataRequest2 = this.thingsboardService.getReadingsTimeseries(
         device.id,
         "temp,pres,hum",
         +startTs,
@@ -103,8 +103,8 @@ export class DevicesService {
         "avg",
       );
       const tsDataRequest = {
-        ...tsDataRequest1,
-        ...tsDataRequest2,
+        ...(await tsDataRequest1),
+        ...(await tsDataRequest2),
       };
       if (Object.keys(tsDataRequest).length >= 4) {
         const processData = (values: any[]) => {

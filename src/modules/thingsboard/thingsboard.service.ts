@@ -99,8 +99,13 @@ export class ThingsboardService {
     interval: number,
     agg = "AVG",
   ) {
+    const start = +new Date();
     const response = await this.tbProvider.get(
       `api/plugins/telemetry/DEVICE/${deviceId}/values/timeseries?keys=${keys}&startTs=${startTs}&endTs=${endTs}&interval=${interval}&agg=${agg}`,
+    );
+    const duration = start - +new Date();
+    console.log(
+      `Request api/plugins/telemetry/DEVICE/${deviceId}/values/timeseries?keys=${keys}&startTs=${startTs}&endTs=${endTs}&interval=${interval}&agg=${agg} completed in ${duration} ms`,
     );
     return response.data;
   }
