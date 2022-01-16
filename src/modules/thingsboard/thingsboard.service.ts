@@ -99,7 +99,7 @@ export class ThingsboardService {
     interval: number,
     agg = "AVG",
   ) {
-    if (endTs - startTs < 24 * 3600 * 1000) {
+    if (endTs - startTs < 25 * 3600 * 1000) {
       agg = "NONE";
     }
     const limit = "5000";
