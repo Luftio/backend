@@ -92,7 +92,7 @@ export class DevicesService {
         +startTs,
         +endTs,
         interval,
-        "max",
+        "MAX",
       );
       const tsDataRequest2 = this.thingsboardService.getReadingsTimeseries(
         device.id,
@@ -100,7 +100,7 @@ export class DevicesService {
         +startTs,
         +endTs,
         interval,
-        "avg",
+        "AVG",
       );
       const tsDataRequest = {
         ...(await tsDataRequest1),
