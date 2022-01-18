@@ -5,7 +5,7 @@ import { EventFromEmployee } from "./entities/event-from-employee.entity";
 import { EventFromMeasure } from "./entities/event-from-measure.entity";
 import { EventsService } from "./events.service";
 
-@Resolver(() => Event)
+@Resolver()
 export class EventsResolver {
   constructor(private readonly eventsService: EventsService) {}
 
