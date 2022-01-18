@@ -72,9 +72,7 @@ export class ThingsboardService {
   }
 
   async getDevice(deviceId: string) {
-    const response = await this.tbProvider.get(
-      `https://app.luftio.com/api/device/info/${deviceId}`,
-    );
+    const response = await this.tbProvider.get(`api/device/info/${deviceId}`);
     return response.data;
   }
 
@@ -103,13 +101,11 @@ export class ThingsboardService {
       agg = "NONE";
     }
     const limit = "5000";
-    const start = +new Date();
+    console.log(
+      `Request api/plugins/telemetry/DEVICE/${deviceId}/values/timeseries?keys=${keys}&startTs=${startTs}&endTs=${endTs}&interval=${interval}&agg=${agg}&limit=${limit}`,
+    );
     const response = await this.tbProvider.get(
       `api/plugins/telemetry/DEVICE/${deviceId}/values/timeseries?keys=${keys}&startTs=${startTs}&endTs=${endTs}&interval=${interval}&agg=${agg}&limit=${limit}`,
-    );
-    const duration = start - +new Date();
-    console.log(
-      `Request api/plugins/telemetry/DEVICE/${deviceId}/values/timeseries?keys=${keys}&startTs=${startTs}&endTs=${endTs}&interval=${interval}&agg=${agg}&limit=${limit} completed in ${duration} ms`,
     );
     return response.data;
   }
