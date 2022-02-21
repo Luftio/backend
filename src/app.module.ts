@@ -20,6 +20,8 @@ import { NotificationsModule } from "./modules/notifications/notifications.modul
     GraphQLModule.forRoot({
       autoSchemaFile: process.cwd() + "/src/schema.gql",
       sortSchema: true,
+      playground: true,
+      introspection: true,
     }),
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],
