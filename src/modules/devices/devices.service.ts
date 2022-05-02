@@ -130,15 +130,22 @@ export class DevicesService {
 
         tsDataRequest.score = tsDataRequest.co2.map((it: any, i: number) => {
           let score = 0;
-          let co2Eq = 100 - (Number(it.value) - 500) * 0.075;
+          const co2Eq = 100 - (Number(it.value) - 500) * 0.075;
           score += Math.min(100, Math.max(0, co2Eq)) * 4;
-          let humidityValue = Number(tsDataRequest.hum[i].value);
-          let humidityEq = 105 - Math.pow(45 - humidityValue, 2) * 0.1;
-          score += Math.min(100, Math.max(0, humidityEq)) * 2;
-          let tempValue = Number(tsDataRequest.temp[i].value);
-          let tempEq = 105 - Math.pow(21 - tempValue, 2);
-          score += Math.min(100, Math.max(0, tempEq));
-          score = Math.round(score / 0.07) / 100;
+          let divide = 0.04;
+          if (tsDataRequest.hum[i]) {
+            const humidityValue = Number(tsDataRequest.hum[i].value);
+            const humidityEq = 105 - Math.pow(45 - humidityValue, 2) * 0.1;
+            score += Math.min(100, Math.max(0, humidityEq)) * 2;
+            divide += 0.02;
+          }
+          if (tsDataRequest.temp[i]) {
+            const tempValue = Number(tsDataRequest.temp[i].value);
+            const tempEq = 105 - Math.pow(21 - tempValue, 2);
+            score += Math.min(100, Math.max(0, tempEq));
+            divide += 0.01;
+          }
+          score = Math.round(score / divide) / 100;
           return { ts: new Date(it.ts), value: score };
         });
         data.push({
