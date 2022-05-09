@@ -11,6 +11,12 @@ export class Device {
   title: string;
   @Field()
   color: string;
+  @Field()
+  lastDisconnectTime?: Date;
+  @Field()
+  lastConnectTime?: Date;
+  @Field()
+  lastActivityTime?: Date;
   @Field(() => [DeviceData], { nullable: true })
   data?: DeviceData[];
 }

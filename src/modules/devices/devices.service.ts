@@ -240,6 +240,18 @@ export class DevicesService {
         });
         device.color = mainColor;
         device.data = data as DeviceData[];
+        const attributes = await this.thingsboardService.getAttributes(
+          device.id,
+        );
+        device.lastActivityTime = new Date(
+          attributes.find((it) => it.key === "lastActivityTime").value,
+        );
+        device.lastConnectTime = new Date(
+          attributes.find((it) => it.key === "lastConnectTime").value,
+        );
+        device.lastDisconnectTime = new Date(
+          attributes.find((it) => it.key === "lastDisconnectTime").value,
+        );
         devicesOutput.push(device);
       }
     }
