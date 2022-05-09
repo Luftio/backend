@@ -124,6 +124,7 @@ export class DevicesService {
               (values[0].value / values[values.length - 1].value - 1) * 10000,
             ) / 100;
           if (!changeNegative) change = -change;
+          if (isNaN(change)) change = 0;
           return { change };
         };
         let data = [];
