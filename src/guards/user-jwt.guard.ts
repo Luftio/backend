@@ -3,6 +3,7 @@ import {
   ExecutionContext,
   Inject,
   Injectable,
+  UnauthorizedException,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 
@@ -28,6 +29,7 @@ export class UserJwtGuard implements CanActivate {
       return true;
     } catch (error) {
       console.log(error);
+      throw new UnauthorizedException();
       return false;
     }
   }

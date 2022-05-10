@@ -13,6 +13,7 @@ import { SuggestionsModule } from "./modules/suggestions/suggestions.module";
 import { FeedbackModule } from "./modules/feedback/feedback.module";
 import { AchievementsModule } from "./modules/achievements/achievements.module";
 import { NotificationsModule } from "./modules/notifications/notifications.module";
+import { GraphQLError, GraphQLFormattedError } from "graphql";
 
 @Module({
   imports: [
@@ -22,6 +23,20 @@ import { NotificationsModule } from "./modules/notifications/notifications.modul
       sortSchema: true,
       playground: true,
       introspection: true,
+      formatError: (error: GraphQLError) => {
+        const graphQLFormattedError: GraphQLFormattedError = {
+          message:
+            error?.extensions?.exception?.response?.message || error?.message,
+          extensions: {
+            ...error?.extensions,
+            code:
+              error?.message == "Unauthorized"
+                ? "invalid-jwt"
+                : error?.extensions?.code,
+          },
+        };
+        return graphQLFormattedError;
+      },
     }),
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],

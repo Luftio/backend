@@ -32,6 +32,9 @@ type Device {
   data: [DeviceData!]
   id: ID!
   label: String!
+  lastActivityTime: DateTime!
+  lastConnectTime: DateTime!
+  lastDisconnectTime: DateTime!
   title: String!
 }
 
