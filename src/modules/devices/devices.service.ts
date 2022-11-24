@@ -125,6 +125,7 @@ export class DevicesService {
             ) / 100;
           if (!changeNegative) change = -change;
           if (isNaN(change)) change = 0;
+          if (change == Infinity) change = 0;
           return { change };
         };
         let data = [];
