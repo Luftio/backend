@@ -1,4 +1,4 @@
-# Luftio App backend
+# Luftio Backend
 
 ## Installation
 
